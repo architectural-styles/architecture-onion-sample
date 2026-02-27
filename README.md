@@ -1,7 +1,9 @@
 # Onion Architecture — Sample / Boilerplate
 
 A reference boilerplate for an onion architecture built with Spring Boot.  
+
 The goal is to demonstrate strict concentric layer separation, effortless infrastructure replacement, and a deliberate testing pyramid.  
+
 The domain is intentionally minimal — a single `User` entity with full CRUD — so the architectural patterns remain in focus rather than getting buried in business details.
 
 > **See also:** [application-layered-sample](../application-layered-sample) — the same feature set implemented as a classic layered monolith, and [application-hexagonal-sample](../application-hexagonal-sample) — the hexagonal (Ports & Adapters) variant. All three projects are designed to be read side by side: the same interfaces and the same isolation rules, expressed through different package organisation.
@@ -14,10 +16,10 @@ The domain is intentionally minimal — a single `User` entity with full CRUD �
 ┌──────────────────────────────────────────────────┐
 │                  infrastructure                  │
 │  ┌────────────────────────────────────────────┐  │
-│  │               application                 │  │
-│  │  ┌──────────────────────────────────────┐ │  │
-│  │  │              domain                  │ │  │
-│  │  └──────────────────────────────────────┘ │  │
+│  │               application                  │  │
+│  │  ┌──────────────────────────────────────┐  │  │
+│  │  │              domain                  │  │  │
+│  │  └──────────────────────────────────────┘  │  │
 │  └────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────┘
 ```
