@@ -1,7 +1,7 @@
 package com.application.onion.infrastructure.adapter.in.mvc.query;
 
+import com.application.onion.application.dto.UserView;
 import com.application.onion.application.port.in.QueryUseCase;
-import com.application.onion.domain.User;
 import com.application.onion.infrastructure.adapter.in.common.dto.Mapper;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -11,11 +11,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/mvc/users/search")
-public class SearchController {
+public class MvcQueryController {
 
     private final QueryUseCase service;
 
-    public SearchController(QueryUseCase service) {
+    public MvcQueryController(QueryUseCase service) {
         this.service = service;
     }
 
@@ -27,12 +27,10 @@ public class SearchController {
 
     @GetMapping("/name")
     public String searchByName(@RequestParam String name, Model model) {
-        List<User> users = service.findByNameStartingWith(name);
+        List<UserView> views = service.findByNameStartingWith(name);
         model.addAttribute("searchTerm", name);
         model.addAttribute(
-                "userViews", users.stream()
-                        .map(Mapper::toResponse)
-                        .toList()
+                "userViews", views.stream().map(Mapper::toResponse).toList()
         );
         return "result/list";
     }

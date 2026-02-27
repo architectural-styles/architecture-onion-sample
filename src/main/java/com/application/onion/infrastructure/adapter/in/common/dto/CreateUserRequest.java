@@ -1,3 +1,3 @@
 package com.application.onion.infrastructure.adapter.in.common.dto;
 
-public record Request(String name, String birthDate) {}
+public record CreateUserRequest(String name, String birthDate) {}

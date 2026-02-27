@@ -1,29 +1,41 @@
 package com.application.onion.application.service;
 
+import com.application.onion.application.dto.UserView;
 import com.application.onion.application.port.in.QueryUseCase;
 import com.application.onion.application.port.out.ReadRepository;
 import com.application.onion.domain.User;
 import com.application.onion.domain.UserNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public final class UserQueryService implements QueryUseCase {
+/**
+ * Package-private.
+ */
+@Transactional(readOnly = true)
+class UserQueryService implements QueryUseCase {
 
     private final ReadRepository users;
 
-    public UserQueryService(ReadRepository users) { this.users = users;}
-
-    public User findById(String id) {
-        return users.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    public UserQueryService(ReadRepository users) {
+        this.users = users;
     }
 
-    public List<User> findAll() {
-        return users.findAll();
+    public UserView findById(String id) {
+        return toView(
+                users.findById(id).orElseThrow(() -> new UserNotFoundException(id))
+        );
     }
 
-    public List<User> findByNameStartingWith(String prefix) {
-        return users.findByNameStartingWith(prefix);
+    public List<UserView> findAll() {
+        return users.findAll().stream().map(this::toView).toList();
     }
 
+    public List<UserView> findByNameStartingWith(String prefix) {
+        return users.findByNameStartingWith(prefix).stream().map(this::toView).toList();
+    }
+
+    private UserView toView(User u) {
+        return new UserView(u.id(), u.name(), u.birthDate());
+    }
 }

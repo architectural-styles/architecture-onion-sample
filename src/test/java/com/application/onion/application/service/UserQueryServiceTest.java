@@ -1,7 +1,6 @@
-package com.application.onion.unit;
+package com.application.onion.application.service;
 
-import com.application.onion.application.service.UserQueryService;
-import com.application.onion.domain.User;
+import com.application.onion.application.dto.UserView;
 import com.application.onion.domain.UserNotFoundException;
 import com.application.onion.fake.FakeReadRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,9 +22,9 @@ class UserQueryServiceTest {
 
     @Test
     void findById_returnsUser() {
-        User user = service.findById("1");
+        UserView view = service.findById("1");
 
-        assertEquals("Alice", user.name());
+        assertEquals("Alice", view.name());
     }
 
     @Test
@@ -37,16 +36,17 @@ class UserQueryServiceTest {
 
     @Test
     void findAll_returnsTwoUsers() {
-        List<User> users = service.findAll();
+        List<UserView> views = service.findAll();
 
-        assertEquals(2, users.size());
+        assertEquals(2, views.size());
     }
 
     @Test
     void findByNameStartsWith_filtersCorrectly() {
-        List<User> users = service.findByNameStartingWith("A");
+        List<UserView> views = service.findByNameStartingWith("A");
 
-        assertEquals(1, users.size());
-        assertEquals("Alice", users.get(0).name());
+        assertEquals(1, views.size());
+        assertEquals("Alice", views.get(0).name());
     }
+
 }

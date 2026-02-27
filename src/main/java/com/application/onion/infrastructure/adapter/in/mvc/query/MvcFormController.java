@@ -1,9 +1,9 @@
 package com.application.onion.infrastructure.adapter.in.mvc.query;
 
+import com.application.onion.application.dto.UserView;
 import com.application.onion.application.port.in.QueryUseCase;
-import com.application.onion.domain.User;
+import com.application.onion.infrastructure.adapter.in.common.dto.CreateUserRequest;
 import com.application.onion.infrastructure.adapter.in.common.dto.Mapper;
-import com.application.onion.infrastructure.adapter.in.common.dto.Request;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/mvc/users")
-public class FormController {
+public class MvcFormController {
 
     private final QueryUseCase service;
 
-    public FormController(QueryUseCase service) {
+    public MvcFormController(QueryUseCase service) {
         this.service = service;
     }
 
@@ -34,7 +34,7 @@ public class FormController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("request", new Request("", ""));
+        model.addAttribute("request", new CreateUserRequest("", ""));
         return "form/create-form";
     }
 
@@ -46,9 +46,8 @@ public class FormController {
 
     @GetMapping("/{id}/delete")
     public String showDeleteConfirmationForm(@PathVariable String id, Model model) {
-        User user = service.findById(id);
-        model.addAttribute("response", Mapper.toResponse(user));
+        UserView view = service.findById(id);
+        model.addAttribute("response", Mapper.toResponse(view));
         return "form/delete-confirm-form";
     }
-
 }
